@@ -2,6 +2,7 @@
   "primary_model": "logistic",
   "seed": 803,
   "threshold": 0.5,
+  "svm_decision": "Positive signed margin. The CSV stores its sigmoid as an uncalibrated display score.",
   "bootstrap_repeats": 5000,
   "software": {
     "python": "3.12.14",
@@ -171,6 +172,86 @@
         }
       }
     },
+    "svm_rbf": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 530,
+          "fp": 48,
+          "fn": 29,
+          "tp": 293
+        },
+        "mean": {
+          "balanced_accuracy": 0.9133056488662897,
+          "stress_f1": 0.88906927049093,
+          "stress_recall": 0.9096267018006147,
+          "rest_recall": 0.9169845959319645,
+          "accuracy": 0.9148482826229551
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.8801194770931614,
+            0.9452320945644743
+          ],
+          "stress_f1": [
+            0.8474799866097809,
+            0.9301309322343426
+          ],
+          "stress_recall": [
+            0.8538795721187027,
+            0.960744400527009
+          ],
+          "rest_recall": [
+            0.8546952316689159,
+            0.9702025811236338
+          ],
+          "accuracy": [
+            0.8775987820647555,
+            0.9497670587340784
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 980,
+          "fp": 377,
+          "fn": 117,
+          "tp": 159
+        },
+        "mean": {
+          "balanced_accuracy": 0.6368316888432969,
+          "stress_f1": 0.3737488626709246,
+          "stress_recall": 0.585867155720097,
+          "rest_recall": 0.6877962219664964,
+          "accuracy": 0.673954208861218
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.5886506810216189,
+            0.6826913605234645
+          ],
+          "stress_f1": [
+            0.3049370370073292,
+            0.43998409313313314
+          ],
+          "stress_recall": [
+            0.4637773480604363,
+            0.7024865249129955
+          ],
+          "rest_recall": [
+            0.600444739044543,
+            0.7658777800479901
+          ],
+          "accuracy": [
+            0.6149517171564107,
+            0.7270859460269486
+          ]
+        }
+      }
+    },
     "random_forest": {
       "wesad_loso": {
         "participants": 15,
@@ -247,6 +328,166 @@
           "accuracy": [
             0.6810543857005068,
             0.7715256552329064
+          ]
+        }
+      }
+    },
+    "gradient_boosting": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 518,
+          "fp": 60,
+          "fn": 42,
+          "tp": 280
+        },
+        "mean": {
+          "balanced_accuracy": 0.8826568034462773,
+          "stress_f1": 0.840480562607964,
+          "stress_recall": 0.8690764790764791,
+          "rest_recall": 0.8962371278160752,
+          "accuracy": 0.8875961797367713
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.8151262784157521,
+            0.9421081123120597
+          ],
+          "stress_f1": [
+            0.7317998317645377,
+            0.9233534077789712
+          ],
+          "stress_recall": [
+            0.7412265512265513,
+            0.9650360750360751
+          ],
+          "rest_recall": [
+            0.7885448201237675,
+            0.9760683760683762
+          ],
+          "accuracy": [
+            0.8193258022233932,
+            0.9443988501055028
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 1053,
+          "fp": 304,
+          "fn": 146,
+          "tp": 130
+        },
+        "mean": {
+          "balanced_accuracy": 0.6093609209503879,
+          "stress_f1": 0.2856344219549467,
+          "stress_recall": 0.4768964695435283,
+          "rest_recall": 0.7418253723572471,
+          "accuracy": 0.7005554058123098
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.5703368661226782,
+            0.651373024476416
+          ],
+          "stress_f1": [
+            0.21250273511254825,
+            0.3566616824282631
+          ],
+          "stress_recall": [
+            0.33785106845768614,
+            0.6176326124855537
+          ],
+          "rest_recall": [
+            0.6468677946520197,
+            0.8318525684753786
+          ],
+          "accuracy": [
+            0.6414186117724634,
+            0.7523751075607074
+          ]
+        }
+      }
+    },
+    "gaussian_nb": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 514,
+          "fp": 64,
+          "fn": 86,
+          "tp": 236
+        },
+        "mean": {
+          "balanced_accuracy": 0.8098176696689283,
+          "stress_f1": 0.7383853569121642,
+          "stress_recall": 0.7304680343810779,
+          "rest_recall": 0.8891673049567786,
+          "accuracy": 0.832409057284007
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.7435838331762246,
+            0.8710809742909285
+          ],
+          "stress_f1": [
+            0.6283910676940889,
+            0.8297605821470829
+          ],
+          "stress_recall": [
+            0.584952271158793,
+            0.8549473147625322
+          ],
+          "rest_recall": [
+            0.794864864864865,
+            0.9605937921727395
+          ],
+          "accuracy": [
+            0.7734956499189707,
+            0.8866746355813068
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 957,
+          "fp": 400,
+          "fn": 148,
+          "tp": 128
+        },
+        "mean": {
+          "balanced_accuracy": 0.5812434006158105,
+          "stress_f1": 0.2658589168431491,
+          "stress_recall": 0.48973706032529557,
+          "rest_recall": 0.6727497409063253,
+          "accuracy": 0.6452257640266965
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.5457244231450298,
+            0.6190705821030364
+          ],
+          "stress_f1": [
+            0.19482523904571905,
+            0.33646467867807756
+          ],
+          "stress_recall": [
+            0.3530613646973941,
+            0.6289233927836867
+          ],
+          "rest_recall": [
+            0.546114739599173,
+            0.7890993456362876
+          ],
+          "accuracy": [
+            0.563307318341485,
+            0.7195091816610671
           ]
         }
       }
@@ -811,6 +1052,68 @@
       "windows": 7,
       "participants": 7,
       "correct": 5
+    }
+  },
+  "paired_balanced_accuracy_vs_logistic": {
+    "physionet_transfer": {
+      "svm_rbf": {
+        "mean_difference": -0.05175754758902127,
+        "bootstrap_95": [
+          -0.0873640263364596,
+          -0.017268816658980148
+        ]
+      },
+      "random_forest": {
+        "mean_difference": -0.06041245699626788,
+        "bootstrap_95": [
+          -0.10771302421043949,
+          -0.010411558921535677
+        ]
+      },
+      "gradient_boosting": {
+        "mean_difference": -0.07922831548193021,
+        "bootstrap_95": [
+          -0.12799652786021232,
+          -0.02895732129143799
+        ]
+      },
+      "gaussian_nb": {
+        "mean_difference": -0.10734583581650747,
+        "bootstrap_95": [
+          -0.14779576515594056,
+          -0.06385654635493378
+        ]
+      }
+    },
+    "wesad_loso": {
+      "svm_rbf": {
+        "mean_difference": 0.021170182749130118,
+        "bootstrap_95": [
+          -0.016036545247071557,
+          0.060575529733424456
+        ]
+      },
+      "random_forest": {
+        "mean_difference": -0.007439715334452187,
+        "bootstrap_95": [
+          -0.09352393852393859,
+          0.07390958792274575
+        ]
+      },
+      "gradient_boosting": {
+        "mean_difference": -0.009478662670882376,
+        "bootstrap_95": [
+          -0.09386705497946919,
+          0.0747843786588065
+        ]
+      },
+      "gaussian_nb": {
+        "mean_difference": -0.08231779644823126,
+        "bootstrap_95": [
+          -0.14237784452458363,
+          -0.022600153655931772
+        ]
+      }
     }
   }
 }

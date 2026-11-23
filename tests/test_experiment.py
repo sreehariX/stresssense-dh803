@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 from stresssense.datasets import physionet_segments, wesad_segments
-from stresssense.evaluate import hold_out_participants, scores
+from stresssense.evaluate import hold_out_participants, paired_balanced_accuracy, scores
 from stresssense.signals import RATES, Segment, Session, Signal, extract_features, window_times
 
 
@@ -61,6 +61,19 @@ class TestEvaluation(unittest.TestCase):
         result = hold_out_participants(data, "logistic", ["eda_mean"])
         self.assertEqual(result.index.to_list(), data.index.to_list())
         self.assertEqual(result.prediction.to_list(), data.label.to_list())
+        svm = hold_out_participants(data, "svm_rbf", ["eda_mean"])
+        self.assertEqual(svm.prediction.to_list(), data.label.to_list())
+        self.assertTrue(svm.stress_score.between(0, 1, inclusive="neither").all())
+
+    def test_paired_difference_matches_people_by_id(self):
+        reference = pd.DataFrame({"participant": ["A", "B"], "balanced_accuracy": [0.75, 0.5]})
+        candidate = pd.DataFrame({"participant": ["B", "A"], "balanced_accuracy": [0.625, 0.875]})
+        self.assertEqual(paired_balanced_accuracy(candidate, reference), {
+            "mean_difference": 0.125,
+            "bootstrap_95": [0.125, 0.125],
+        })
+        with self.assertRaises(ValueError):
+            paired_balanced_accuracy(candidate.iloc[:1], reference)
 
     def test_metrics_apply_equal_weight_to_classes(self):
         result = scores(tn=90, fp=0, fn=9, tp=1)

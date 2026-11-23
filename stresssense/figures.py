@@ -13,9 +13,18 @@ import numpy as np
 
 def plot(summary_path, output):
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
-    models = ["always_rest", "acc_only", "logistic", "random_forest"]
+    labels = {
+        "always_rest": "Always rest",
+        "acc_only": "Movement only",
+        "logistic": "Logistic regression",
+        "svm_rbf": "RBF support vector machine",
+        "random_forest": "Random forest",
+        "gradient_boosting": "Gradient boosted trees",
+        "gaussian_nb": "Gaussian naive Bayes",
+    }
+    models = [model for model in labels if model in summary["models"]]
     rows = np.arange(len(models))
-    figure, axes = plt.subplots(figsize=(8.5, 4.1), layout="constrained")
+    figure, axes = plt.subplots(figsize=(9.1, 1.5 + 0.7 * len(models)), layout="constrained")
     comparisons = [
         ("wesad_loso", "WESAD held out participants", -0.12, "o", "black"),
         ("physionet_transfer", "PhysioNet transfer", 0.12, "s", "#606060"),
@@ -29,7 +38,7 @@ def plot(summary_path, output):
                       capsize=3, markersize=5, linewidth=1, label=label)
     axes.axvline(0.5, color="#999999", linestyle=":", linewidth=1)
     axes.set_xlim(0.25, 1.01)
-    axes.set_yticks(rows, ["Always rest", "Movement only", "Logistic regression", "Random forest"])
+    axes.set_yticks(rows, [labels[model] for model in models])
     axes.invert_yaxis()
     axes.set_xlabel("Mean participant balanced accuracy")
     axes.xaxis.set_major_formatter(PercentFormatter(1, decimals=0))

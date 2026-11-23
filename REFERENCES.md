@@ -25,3 +25,9 @@
 [12] P. Virtanen et al., “SciPy 1.0: Fundamental algorithms for scientific computing in Python,” Nat. Methods, vol. 17, pp. 261–272, 2020. [DOI](https://doi.org/10.1038/s41592-019-0686-2)
 
 [13] T. Pollard et al., “PhysioNet as a global platform for biomedical research,” Nature Health, vol. 1, pp. 792–795, 2026. [DOI](https://doi.org/10.1038/s44360-026-00096-z)
+
+[14] C. Cortes and V. Vapnik, “Support-vector networks,” Mach. Learn., vol. 20, pp. 273–297, 1995. [DOI](https://doi.org/10.1007/BF00994018)
+
+[15] J. H. Friedman, “Greedy function approximation: A gradient boosting machine,” Ann. Statist., vol. 29, no. 5, pp. 1189–1232, 2001. [DOI](https://doi.org/10.1214/aos/1013203451)
+
+[16] scikit-learn developers, “GaussianNB,” scikit-learn 1.6.1 documentation. [Documentation](https://scikit-learn.org/1.6/modules/generated/sklearn.naive_bayes.GaussianNB.html)

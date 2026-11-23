@@ -10,19 +10,24 @@ import numpy as np
 import pandas as pd
 import scipy
 import sklearn
+from scipy.special import expit
 from sklearn.dummy import DummyClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import HistGradientBoostingClassifier, RandomForestClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import LeaveOneGroupOut
+from sklearn.naive_bayes import GaussianNB
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from threadpoolctl import threadpool_limits
 
 
 SEED = 803
 FEATURE_GROUPS = ("bvp", "eda", "temp", "acc")
 PRIMARY = "logistic"
-MODELS = ("always_rest", PRIMARY, "random_forest", "acc_only",
+FULL_MODELS = (PRIMARY, "svm_rbf", "random_forest", "gradient_boosting", "gaussian_nb")
+MODELS = ("always_rest", *FULL_MODELS, "acc_only",
           "without_bvp", "without_eda", "without_temp", "without_acc")
 METRICS = ("balanced_accuracy", "stress_f1", "stress_recall", "rest_recall", "accuracy")
 BOOTSTRAP_REPEATS = 5000
@@ -45,6 +50,17 @@ def classifier(model):
         forest = RandomForestClassifier(n_estimators=200, min_samples_leaf=5,
                                         class_weight="balanced", random_state=SEED, n_jobs=1)
         return make_pipeline(imputer, forest)
+    if model == "gradient_boosting":
+        boosting = HistGradientBoostingClassifier(
+            max_iter=150, max_leaf_nodes=15, min_samples_leaf=10, l2_regularization=1,
+            learning_rate=0.1, class_weight="balanced", early_stopping=False, random_state=SEED,
+        )
+        return make_pipeline(imputer, boosting)
+    if model == "gaussian_nb":
+        return make_pipeline(imputer, StandardScaler(), GaussianNB(priors=[0.5, 0.5]))
+    if model == "svm_rbf":
+        svm = SVC(C=1, kernel="rbf", gamma="scale", class_weight="balanced")
+        return make_pipeline(imputer, StandardScaler(), svm)
     return make_pipeline(imputer, StandardScaler(),
                          LogisticRegression(C=1, class_weight="balanced", max_iter=2000,
                                             random_state=SEED))
@@ -52,8 +68,15 @@ def classifier(model):
 
 def _predict(estimator, columns, test):
     results = test[["participant", "cohort", "start_s", "task", "label"]].copy()
-    results["stress_score"] = estimator.predict_proba(test[columns])[:, 1]
-    results["prediction"] = (results["stress_score"] > 0.5).astype(int)
+    features = test[columns]
+    if hasattr(estimator, "predict_proba"):
+        results["stress_score"] = estimator.predict_proba(features)[:, 1]
+        results["prediction"] = (results["stress_score"] > 0.5).astype(int)
+    else:
+        margin = estimator.decision_function(features)
+        # Preserve the SVM's zero margin cutoff. The sigmoid is only for CSV display.
+        results["stress_score"] = expit(margin)
+        results["prediction"] = (margin > 0).astype(int)
     return results
 
 
@@ -95,6 +118,22 @@ def scores(tn, fp, fn, tp):
     }
 
 
+def _bootstrap_means(samples):
+    rng = np.random.default_rng(SEED)
+    resamples = rng.integers(len(samples), size=(BOOTSTRAP_REPEATS, len(samples)))
+    return np.quantile(samples[resamples].mean(axis=1), (0.025, 0.975), axis=0)
+
+
+def paired_balanced_accuracy(candidate, reference):
+    comparison = candidate.set_index("participant").balanced_accuracy.to_frame("candidate").join(
+        reference.set_index("participant").balanced_accuracy.rename("reference"), how="outer", validate="1:1"
+    )
+    if comparison.empty or comparison.isna().any().any():
+        raise ValueError("A paired comparison requires the same participants in both models")
+    difference = (comparison.candidate - comparison.reference).to_numpy()
+    return {"mean_difference": float(difference.mean()), "bootstrap_95": _bootstrap_means(difference).tolist()}
+
+
 def summarize(frame):
     people = []
     for person, group in frame.groupby("participant"):
@@ -103,9 +142,7 @@ def summarize(frame):
                        **units, **scores(**units)})
     participant_scores = pd.DataFrame(people)
     samples = participant_scores[list(METRICS)].to_numpy()
-    rng = np.random.default_rng(SEED)
-    resamples = rng.integers(len(samples), size=(BOOTSTRAP_REPEATS, len(samples)))
-    lower, upper = np.quantile(samples[resamples].mean(axis=1), (0.025, 0.975), axis=0)
+    lower, upper = _bootstrap_means(samples)
     summary = {
         "participants": len(people),
         "windows": len(frame),
@@ -133,6 +170,7 @@ def experiment(features, output):
         "primary_model": PRIMARY,
         "seed": SEED,
         "threshold": 0.5,
+        "svm_decision": "Positive signed margin. The CSV stores its sigmoid as an uncalibrated display score.",
         "bootstrap_repeats": BOOTSTRAP_REPEATS,
         "software": {"python": platform.python_version(), "numpy": np.__version__, "scipy": scipy.__version__,
                      "pandas": pd.__version__, "scikit-learn": sklearn.__version__},
@@ -161,8 +199,16 @@ def experiment(features, output):
                        "correct": int(part.label.eq(part.prediction).sum())}
                 for task, part in target.groupby("task")
             }
+    all_metrics = pd.concat(participant_metrics, ignore_index=True)
+    summary["paired_balanced_accuracy_vs_logistic"] = {}
+    for evaluation, comparison in all_metrics.groupby("evaluation"):
+        reference = comparison[comparison.model == PRIMARY]
+        summary["paired_balanced_accuracy_vs_logistic"][evaluation] = {
+            model: paired_balanced_accuracy(comparison[comparison.model == model], reference)
+            for model in FULL_MODELS if model != PRIMARY
+        }
     pd.concat(predictions, ignore_index=True).to_csv(output / "predictions.csv", index=False)
-    pd.concat(participant_metrics, ignore_index=True).to_csv(output / "participant_metrics.csv", index=False)
+    all_metrics.to_csv(output / "participant_metrics.csv", index=False)
     (output / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     for name, result in summary["models"][PRIMARY].items():
         print(f"{name}: {result['participants']} people, balanced accuracy {result['mean']['balanced_accuracy']:.3f}")
@@ -173,7 +219,8 @@ def main():
     parser.add_argument("--features", type=Path, default=Path("run"))
     parser.add_argument("--output", type=Path, default=Path("run"))
     args = parser.parse_args()
-    experiment(args.features, args.output)
+    with threadpool_limits(limits=1):
+        experiment(args.features, args.output)
 
 
 if __name__ == "__main__":
