@@ -1,0 +1,816 @@
+{
+  "primary_model": "logistic",
+  "seed": 803,
+  "threshold": 0.5,
+  "bootstrap_repeats": 5000,
+  "software": {
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.6.1"
+  },
+  "models": {
+    "always_rest": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 578,
+          "fp": 0,
+          "fn": 322,
+          "tp": 0
+        },
+        "mean": {
+          "balanced_accuracy": 0.5,
+          "stress_f1": 0.0,
+          "stress_recall": 0.0,
+          "rest_recall": 1.0,
+          "accuracy": 0.6423326816649567
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.5,
+            0.5
+          ],
+          "stress_f1": [
+            0.0,
+            0.0
+          ],
+          "stress_recall": [
+            0.0,
+            0.0
+          ],
+          "rest_recall": [
+            1.0,
+            1.0
+          ],
+          "accuracy": [
+            0.6380021630036846,
+            0.6465294058823335
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 1357,
+          "fp": 0,
+          "fn": 276,
+          "tp": 0
+        },
+        "mean": {
+          "balanced_accuracy": 0.5,
+          "stress_f1": 0.0,
+          "stress_recall": 0.0,
+          "rest_recall": 1.0,
+          "accuracy": 0.8176257298364443
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.5,
+            0.5
+          ],
+          "stress_f1": [
+            0.0,
+            0.0
+          ],
+          "stress_recall": [
+            0.0,
+            0.0
+          ],
+          "rest_recall": [
+            1.0,
+            1.0
+          ],
+          "accuracy": [
+            0.8022253260249875,
+            0.8327301132581825
+          ]
+        }
+      }
+    },
+    "logistic": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 513,
+          "fp": 65,
+          "fn": 33,
+          "tp": 289
+        },
+        "mean": {
+          "balanced_accuracy": 0.8921354661171595,
+          "stress_f1": 0.8620075830844184,
+          "stress_recall": 0.8964665286404419,
+          "rest_recall": 0.8878044035938772,
+          "accuracy": 0.8913662503176495
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.8418725006310818,
+            0.933734116158029
+          ],
+          "stress_f1": [
+            0.8014809337835653,
+            0.9151839053658416
+          ],
+          "stress_recall": [
+            0.8197979797979799,
+            0.9555047368090847
+          ],
+          "rest_recall": [
+            0.8033288349077823,
+            0.9580786859734228
+          ],
+          "accuracy": [
+            0.8360804675014122,
+            0.9369793396544419
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 917,
+          "fp": 440,
+          "fn": 77,
+          "tp": 199
+        },
+        "mean": {
+          "balanced_accuracy": 0.688589236432318,
+          "stress_f1": 0.4461464924633116,
+          "stress_recall": 0.7328651740416446,
+          "rest_recall": 0.6443132988229913,
+          "accuracy": 0.6620140249525918
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.641277197489501,
+            0.7320480453926617
+          ],
+          "stress_f1": [
+            0.3798895191581692,
+            0.5096482014134308
+          ],
+          "stress_recall": [
+            0.6299865779645193,
+            0.8290628591180061
+          ],
+          "rest_recall": [
+            0.5497385822461297,
+            0.7269132886432581
+          ],
+          "accuracy": [
+            0.5945633951819514,
+            0.7225299383343833
+          ]
+        }
+      }
+    },
+    "random_forest": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 522,
+          "fp": 56,
+          "fn": 43,
+          "tp": 279
+        },
+        "mean": {
+          "balanced_accuracy": 0.8846957507827075,
+          "stress_f1": 0.836620610670843,
+          "stress_recall": 0.8665963987703117,
+          "rest_recall": 0.9027951027951029,
+          "accuracy": 0.8905755828145099
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.8142045611393439,
+            0.9421794449511841
+          ],
+          "stress_f1": [
+            0.7037371742377988,
+            0.9280768645876861
+          ],
+          "stress_recall": [
+            0.729432241671372,
+            0.9609148942844595
+          ],
+          "rest_recall": [
+            0.8104816354816355,
+            0.9794871794871796
+          ],
+          "accuracy": [
+            0.8282334033842181,
+            0.946409812125212
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 1092,
+          "fp": 265,
+          "fn": 146,
+          "tp": 130
+        },
+        "mean": {
+          "balanced_accuracy": 0.6281767794360502,
+          "stress_f1": 0.3091580085139578,
+          "stress_recall": 0.47514683029388904,
+          "rest_recall": 0.781206728578211,
+          "accuracy": 0.7288441624824444
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.5877610123020413,
+            0.6707168954790662
+          ],
+          "stress_f1": [
+            0.24134072241232488,
+            0.3786454011222693
+          ],
+          "stress_recall": [
+            0.3430881557168322,
+            0.6110653113226642
+          ],
+          "rest_recall": [
+            0.6976655522894729,
+            0.8575911684902714
+          ],
+          "accuracy": [
+            0.6810543857005068,
+            0.7715256552329064
+          ]
+        }
+      }
+    },
+    "acc_only": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 525,
+          "fp": 53,
+          "fn": 69,
+          "tp": 253
+        },
+        "mean": {
+          "balanced_accuracy": 0.8478623088348489,
+          "stress_f1": 0.7976254998531036,
+          "stress_recall": 0.7875569358178055,
+          "rest_recall": 0.9081676818518924,
+          "accuracy": 0.8644696474069922
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.8101176864826751,
+            0.8829593536201087
+          ],
+          "stress_f1": [
+            0.7477031125735952,
+            0.8417365596847365
+          ],
+          "stress_recall": [
+            0.6981306857393813,
+            0.8705362632536546
+          ],
+          "rest_recall": [
+            0.8764366086734509,
+            0.936663627189943
+          ],
+          "accuracy": [
+            0.8386779091725068,
+            0.8886460026420774
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 1124,
+          "fp": 233,
+          "fn": 175,
+          "tp": 101
+        },
+        "mean": {
+          "balanced_accuracy": 0.5876679777665265,
+          "stress_f1": 0.3216112375823722,
+          "stress_recall": 0.3775995246583482,
+          "rest_recall": 0.7977364308747049,
+          "accuracy": 0.7220022515512786
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.5281994045224258,
+            0.6465240756680716
+          ],
+          "stress_f1": [
+            0.24481990358501923,
+            0.40017467347913754
+          ],
+          "stress_recall": [
+            0.28101683855360327,
+            0.48125557040998207
+          ],
+          "rest_recall": [
+            0.734168499313963,
+            0.8521169662193264
+          ],
+          "accuracy": [
+            0.6638852462164605,
+            0.77166818967097
+          ]
+        }
+      }
+    },
+    "without_bvp": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 503,
+          "fp": 75,
+          "fn": 49,
+          "tp": 273
+        },
+        "mean": {
+          "balanced_accuracy": 0.8605598949878126,
+          "stress_f1": 0.8241851723048036,
+          "stress_recall": 0.8504592508940335,
+          "rest_recall": 0.8706605390815917,
+          "accuracy": 0.8629926433241207
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.8100832981416507,
+            0.9100337386498712
+          ],
+          "stress_f1": [
+            0.7596899242639409,
+            0.8866418472954982
+          ],
+          "stress_recall": [
+            0.7616656157851811,
+            0.928029675638371
+          ],
+          "rest_recall": [
+            0.7675120059330585,
+            0.9567151767151767
+          ],
+          "accuracy": [
+            0.803706798390909,
+            0.9176568297906396
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 716,
+          "fp": 641,
+          "fn": 74,
+          "tp": 202
+        },
+        "mean": {
+          "balanced_accuracy": 0.6147841220690546,
+          "stress_f1": 0.3676573092239913,
+          "stress_recall": 0.7341652628417334,
+          "rest_recall": 0.49540298129637594,
+          "accuracy": 0.5400253676898766
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.5683476203590001,
+            0.6612728672483978
+          ],
+          "stress_f1": [
+            0.3113741910502744,
+            0.42553959349179343
+          ],
+          "stress_recall": [
+            0.626788234233087,
+            0.835430592691622
+          ],
+          "rest_recall": [
+            0.3850007413964937,
+            0.6034591790432071
+          ],
+          "accuracy": [
+            0.46101846223141724,
+            0.6151594965448259
+          ]
+        }
+      }
+    },
+    "without_eda": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 500,
+          "fp": 78,
+          "fn": 37,
+          "tp": 285
+        },
+        "mean": {
+          "balanced_accuracy": 0.8742420184868699,
+          "stress_f1": 0.8432589274819374,
+          "stress_recall": 0.8834939456678587,
+          "rest_recall": 0.8649900913058808,
+          "accuracy": 0.8725943908745525
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.8207533431618099,
+            0.9185909220528785
+          ],
+          "stress_f1": [
+            0.7866594823285074,
+            0.8938657488963243
+          ],
+          "stress_recall": [
+            0.817257967877533,
+            0.9409145649036953
+          ],
+          "rest_recall": [
+            0.7575233127864708,
+            0.9463640563640565
+          ],
+          "accuracy": [
+            0.8068414813474722,
+            0.9223069838993869
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 1050,
+          "fp": 307,
+          "fn": 125,
+          "tp": 151
+        },
+        "mean": {
+          "balanced_accuracy": 0.6664004462325253,
+          "stress_f1": 0.3883742296246779,
+          "stress_recall": 0.5533881967705497,
+          "rest_recall": 0.7794126956945008,
+          "accuracy": 0.7318415147794436
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.6117754072203985,
+            0.7190642905853657
+          ],
+          "stress_f1": [
+            0.30226365709216957,
+            0.4731273988084214
+          ],
+          "stress_recall": [
+            0.42604776759188523,
+            0.6747865900439428
+          ],
+          "rest_recall": [
+            0.7102210383412715,
+            0.8429820995158503
+          ],
+          "accuracy": [
+            0.6823369428946191,
+            0.7795473157049565
+          ]
+        }
+      }
+    },
+    "without_temp": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 521,
+          "fp": 57,
+          "fn": 45,
+          "tp": 277
+        },
+        "mean": {
+          "balanced_accuracy": 0.880890720661888,
+          "stress_f1": 0.8451463397540837,
+          "stress_recall": 0.859814291988205,
+          "rest_recall": 0.9019671493355703,
+          "accuracy": 0.886869303433581
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.8334655727687765,
+            0.9248347153238456
+          ],
+          "stress_f1": [
+            0.7803072518236678,
+            0.9031500878543346
+          ],
+          "stress_recall": [
+            0.7680361064056715,
+            0.9402490432273043
+          ],
+          "rest_recall": [
+            0.8254562254562254,
+            0.9647542583068899
+          ],
+          "accuracy": [
+            0.8394870835616732,
+            0.9306665265968886
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 935,
+          "fp": 422,
+          "fn": 97,
+          "tp": 179
+        },
+        "mean": {
+          "balanced_accuracy": 0.6572953389557105,
+          "stress_f1": 0.4131914194354928,
+          "stress_recall": 0.6569890893420306,
+          "rest_recall": 0.6576015885693903,
+          "accuracy": 0.6622685917765265
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.6051986901392225,
+            0.7058932864190491
+          ],
+          "stress_f1": [
+            0.33682954090575795,
+            0.4865572555871081
+          ],
+          "stress_recall": [
+            0.5405859826448061,
+            0.7704500911670029
+          ],
+          "rest_recall": [
+            0.5535944662273913,
+            0.7522872342326867
+          ],
+          "accuracy": [
+            0.5889493266824732,
+            0.7311938299375995
+          ]
+        }
+      }
+    },
+    "without_acc": {
+      "wesad_loso": {
+        "participants": 15,
+        "windows": 900,
+        "pooled_confusion": {
+          "tn": 474,
+          "fp": 104,
+          "fn": 41,
+          "tp": 281
+        },
+        "mean": {
+          "balanced_accuracy": 0.8459308868233354,
+          "stress_f1": 0.8082379933622368,
+          "stress_recall": 0.8714486479703872,
+          "rest_recall": 0.8204131256762836,
+          "accuracy": 0.8393892712415258
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.780599709939527,
+            0.9013104813322204
+          ],
+          "stress_f1": [
+            0.733365793813065,
+            0.8748860777774805
+          ],
+          "stress_recall": [
+            0.7746759206976597,
+            0.9443001443001443
+          ],
+          "rest_recall": [
+            0.6889551494814652,
+            0.9312543312543312
+          ],
+          "accuracy": [
+            0.759712306833539,
+            0.9048597661853106
+          ]
+        }
+      },
+      "physionet_transfer": {
+        "participants": 34,
+        "windows": 1633,
+        "pooled_confusion": {
+          "tn": 936,
+          "fp": 421,
+          "fn": 93,
+          "tp": 183
+        },
+        "mean": {
+          "balanced_accuracy": 0.6701882001350372,
+          "stress_f1": 0.41716020788114266,
+          "stress_recall": 0.6649800363035657,
+          "rest_recall": 0.6753963639665088,
+          "accuracy": 0.6735987207241425
+        },
+        "bootstrap_95": {
+          "balanced_accuracy": [
+            0.6235155202330933,
+            0.7133950032432209
+          ],
+          "stress_f1": [
+            0.349840771539614,
+            0.4798820101511823
+          ],
+          "stress_recall": [
+            0.5608124412352354,
+            0.7653012734814206
+          ],
+          "rest_recall": [
+            0.6010553030606028,
+            0.7431584156088106
+          ],
+          "accuracy": [
+            0.6191249119381864,
+            0.7233765052755781
+          ]
+        }
+      }
+    }
+  },
+  "physionet_cohorts": {
+    "V1": {
+      "participants": 17,
+      "windows": 533,
+      "pooled_confusion": {
+        "tn": 236,
+        "fp": 182,
+        "fn": 31,
+        "tp": 84
+      },
+      "mean": {
+        "balanced_accuracy": 0.6509642481701305,
+        "stress_f1": 0.4399222843556564,
+        "stress_recall": 0.7384453781512607,
+        "rest_recall": 0.5634831181890005,
+        "accuracy": 0.6010990904428105
+      },
+      "bootstrap_95": {
+        "balanced_accuracy": [
+          0.5778156937017231,
+          0.7268971910442498
+        ],
+        "stress_f1": [
+          0.3261480250948683,
+          0.5527031785325693
+        ],
+        "stress_recall": [
+          0.5644257703081232,
+          0.8893557422969188
+        ],
+        "rest_recall": [
+          0.4251706632147809,
+          0.6989052075375605
+        ],
+        "accuracy": [
+          0.5080534989724369,
+          0.6970833569660753
+        ]
+      }
+    },
+    "V2": {
+      "participants": 17,
+      "windows": 1100,
+      "pooled_confusion": {
+        "tn": 681,
+        "fp": 258,
+        "fn": 46,
+        "tp": 115
+      },
+      "mean": {
+        "balanced_accuracy": 0.7262142246945055,
+        "stress_f1": 0.45237070057096673,
+        "stress_recall": 0.7272849699320287,
+        "rest_recall": 0.7251434794569821,
+        "accuracy": 0.7229289594623731
+      },
+      "bootstrap_95": {
+        "balanced_accuracy": [
+          0.6813875857961953,
+          0.7716323248338851
+        ],
+        "stress_f1": [
+          0.39238222566898856,
+          0.5177539908314445
+        ],
+        "stress_recall": [
+          0.6101564897520778,
+          0.8480316048330754
+        ],
+        "rest_recall": [
+          0.6099599261791816,
+          0.823734013096703
+        ],
+        "accuracy": [
+          0.6389526463273514,
+          0.7953457834893486
+        ]
+      }
+    }
+  },
+  "physionet_baseline_only": {
+    "participants": 33,
+    "windows": 403,
+    "pooled_confusion": {
+      "tn": 62,
+      "fp": 74,
+      "fn": 73,
+      "tp": 194
+    },
+    "mean": {
+      "balanced_accuracy": 0.5835130357857631,
+      "stress_f1": 0.6907429323134361,
+      "stress_recall": 0.7382381927836473,
+      "rest_recall": 0.4287878787878788,
+      "accuracy": 0.640983555956818
+    },
+    "bootstrap_95": {
+      "balanced_accuracy": [
+        0.5206508811054266,
+        0.6484628692015055
+      ],
+      "stress_f1": [
+        0.6021537178591075,
+        0.7701048548948211
+      ],
+      "stress_recall": [
+        0.6297728365910185,
+        0.8390275864707682
+      ],
+      "rest_recall": [
+        0.2949494949494949,
+        0.5686868686868687
+      ],
+      "accuracy": [
+        0.5759768952081785,
+        0.7040101884152686
+      ]
+    }
+  },
+  "physionet_tasks": {
+    "baseline": {
+      "windows": 136,
+      "participants": 33,
+      "correct": 62
+    },
+    "counter_opinion": {
+      "windows": 5,
+      "participants": 5,
+      "correct": 4
+    },
+    "mental_arithmetic": {
+      "windows": 208,
+      "participants": 34,
+      "correct": 145
+    },
+    "opinion": {
+      "windows": 7,
+      "participants": 7,
+      "correct": 7
+    },
+    "rest_1": {
+      "windows": 641,
+      "participants": 34,
+      "correct": 435
+    },
+    "rest_2": {
+      "windows": 580,
+      "participants": 34,
+      "correct": 420
+    },
+    "stroop": {
+      "windows": 49,
+      "participants": 17,
+      "correct": 38
+    },
+    "subtraction": {
+      "windows": 7,
+      "participants": 7,
+      "correct": 5
+    }
+  }
+}

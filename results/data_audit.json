@@ -1,0 +1,69 @@
+{
+  "window_seconds": 30,
+  "edge_guard_seconds": 5,
+  "wesad": {
+    "archive_sha256": "5e15d2606adf16d819ba535c1786d92e94bae5ff5392f7ae01fb63f9938fd71c",
+    "participants": 15,
+    "windows": 900,
+    "rest_windows": 578,
+    "stress_windows": 322,
+    "task_windows": {
+      "baseline": 578,
+      "tsst": 322
+    },
+    "missing_by_feature": {
+      "bvp_rate": 53,
+      "bvp_interval_iqr": 53,
+      "eda_mean": 0,
+      "eda_std": 0,
+      "eda_slope": 0,
+      "eda_range": 0,
+      "temp_mean": 0,
+      "temp_std": 0,
+      "temp_slope": 0,
+      "temp_range": 0,
+      "acc_magnitude_std": 0,
+      "acc_axis_std": 0,
+      "acc_jerk": 0
+    }
+  },
+  "physionet": {
+    "archive_sha256": "afbff3e8e7230bdc765d0ccfc5c3460964021cdfefa8e351f8ad8f78a1b27c48",
+    "participants": 34,
+    "windows": 1633,
+    "rest_windows": 1357,
+    "stress_windows": 276,
+    "task_windows": {
+      "baseline": 136,
+      "counter_opinion": 5,
+      "mental_arithmetic": 208,
+      "opinion": 7,
+      "rest_1": 641,
+      "rest_2": 580,
+      "stroop": 49,
+      "subtraction": 7
+    },
+    "missing_by_feature": {
+      "bvp_rate": 18,
+      "bvp_interval_iqr": 18,
+      "eda_mean": 0,
+      "eda_std": 0,
+      "eda_slope": 0,
+      "eda_range": 0,
+      "temp_mean": 0,
+      "temp_std": 0,
+      "temp_slope": 0,
+      "temp_range": 0,
+      "acc_magnitude_std": 0,
+      "acc_axis_std": 0,
+      "acc_jerk": 0
+    },
+    "excluded_participants": {
+      "S02": "Duplicated raw signals documented by source",
+      "f07": "Protective dock covered the pulse and temperature sensors"
+    },
+    "partial_participants": {
+      "f14": "Tagged f14_b only. Untagged baseline in f14_a omitted."
+    }
+  }
+}

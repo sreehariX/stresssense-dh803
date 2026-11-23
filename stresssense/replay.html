@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StressSense recording replay</title>
+<style>
+  body { margin: 0; color: #000; background: #fff; font: 17px/1.5 system-ui, sans-serif; }
+  main { max-width: 940px; margin: 2rem auto; padding: 0 1rem; }
+  h1 { font-size: 2rem; line-height: 1.2; font-weight: 500; margin-bottom: .5rem; }
+  p { margin-top: 0; }
+  .controls { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+  button { background: white; color: black; border: 1px solid black; padding: .3rem .65rem; font: inherit; }
+  input { accent-color: black; }
+  #position { flex: 1; min-width: 7rem; }
+  .readings { display: flex; flex-wrap: wrap; gap: 1rem 2rem; border-block: 1px solid #bbb; padding: .6rem 0; margin: 1rem 0; }
+  dt { font-size: .85rem; }
+  dd { margin: 0; font-size: 1.05rem; }
+  figure { margin: .45rem 0; }
+  figcaption { font-size: .88rem; }
+  canvas { width: 100%; display: block; }
+  small { display: block; margin-top: 1rem; }
+</style>
+<main>
+  <h1>StressSense recording replay</h1>
+  <p id="study"></p>
+  <div class="controls">
+    <button id="previous" type="button">Previous</button>
+    <button id="play" type="button">Play</button>
+    <button id="next" type="button">Next</button>
+    <label for="position">Window</label>
+    <input id="position" type="range" min="0" value="0">
+    <output id="counter" for="position"></output>
+  </div>
+  <dl class="readings">
+    <div><dt>Recording time</dt><dd id="time"></dd></div>
+    <div><dt>Study label</dt><dd id="label"></dd></div>
+    <div><dt>Model prediction</dt><dd id="prediction"></dd></div>
+    <div><dt>Model score</dt><dd id="score"></dd></div>
+  </dl>
+  <figure><figcaption>Blood volume pulse <span id="range-BVP"></span></figcaption><canvas id="BVP" width="900" height="74" role="img" aria-label="Blood volume pulse trace"></canvas></figure>
+  <figure><figcaption>Skin conductance <span id="range-EDA"></span></figcaption><canvas id="EDA" width="900" height="74" role="img" aria-label="Skin conductance trace"></canvas></figure>
+  <figure><figcaption>Skin temperature <span id="range-TEMP"></span></figcaption><canvas id="TEMP" width="900" height="74" role="img" aria-label="Skin temperature trace"></canvas></figure>
+  <figure><figcaption>Acceleration magnitude <span id="range-ACC"></span></figcaption><canvas id="ACC" width="900" height="74" role="img" aria-label="Acceleration magnitude trace"></canvas></figure>
+  <small>Each trace covers 30 seconds. Pulse and acceleration traces are displayed at a reduced sampling rate. The score describes the model's prediction of a study condition.</small>
+</main>
+<script id="recordings" type="application/json">__STRESSSENSE_DATA__</script>
+<script>
+  const byId = id => document.getElementById(id);
+  const data = JSON.parse(byId("recordings").textContent);
+  const position = byId("position");
+  const play = byId("play");
+  const last = data.windows.length - 1;
+  const names = {0: "Baseline or rest", 1: "Stress task"};
+  const units = {BVP: "a.u.", EDA: "µS", TEMP: "°C", ACC: "g"};
+  let timer = null;
+
+  byId("study").textContent = data.study + " participant " + data.participant + ". Predictions come from a model trained on other people.";
+  position.max = last;
+
+  function draw(name, values) {
+    const canvas = byId(name);
+    const context = canvas.getContext("2d");
+    const {width, height} = canvas;
+    const finite = values.filter(value => value !== null);
+    const range = byId("range-" + name);
+    context.clearRect(0, 0, width, height);
+    if (finite.length === 0) {
+      range.textContent = "(no valid samples)";
+      return;
+    }
+    const min = Math.min(...finite);
+    const max = Math.max(...finite);
+    range.textContent = "(" + min.toFixed(2) + " to " + max.toFixed(2) + " " + units[name] + ")";
+    context.strokeStyle = "#ddd";
+    context.strokeRect(0.5, 0.5, width - 1, height - 1);
+    context.strokeStyle = "#000";
+    context.beginPath();
+    let connected = false;
+    for (const [index, value] of values.entries()) {
+      if (value === null) {
+        connected = false;
+        continue;
+      }
+      const x = 2 + index / (data.rates[name] * 30) * (width - 4);
+      const y = max === min ? height / 2 : height - 5 - (value - min) / (max - min) * (height - 10);
+      if (connected) context.lineTo(x, y);
+      else context.moveTo(x, y);
+      connected = true;
+    }
+    context.stroke();
+  }
+
+  function refresh() {
+    const index = Number(position.value);
+    const window = data.windows[index];
+    byId("counter").textContent = (index + 1) + " of " + (last + 1);
+    byId("time").textContent = window.start + " to " + (window.start + 30).toFixed(2) + " s";
+    byId("label").textContent = names[window.label] + " (" + window.task.replaceAll("_", " ") + ")";
+    byId("prediction").textContent = names[window.prediction];
+    byId("score").textContent = window.score.toFixed(3);
+    for (const [name, values] of Object.entries(window.traces)) draw(name, values);
+    byId("previous").disabled = index === 0;
+    byId("next").disabled = index === last;
+  }
+
+  function move(step) {
+    position.value = Math.min(last, Math.max(0, Number(position.value) + step));
+    refresh();
+  }
+
+  function pause() {
+    clearInterval(timer);
+    timer = null;
+    play.textContent = "Play";
+  }
+
+  position.addEventListener("input", refresh);
+  byId("previous").addEventListener("click", () => move(-1));
+  byId("next").addEventListener("click", () => move(1));
+  play.addEventListener("click", () => {
+    if (timer !== null) {
+      pause();
+      return;
+    }
+    if (Number(position.value) === last) {
+      position.value = 0;
+      refresh();
+    }
+    play.textContent = "Pause";
+    timer = setInterval(() => {
+      if (Number(position.value) === last) pause();
+      else move(1);
+    }, 1000);
+  });
+  refresh();
+</script>
+</html>
